@@ -64,3 +64,33 @@ else
         sed -i "${LAST_LINE}"'i\echo "address=/miwifi.com/192.168.10.1" >> /etc/dnsmasq.conf' $(find ./package/emortal/default-settings/files/ -type f -name "99-default-settings")
     fi
 fi
+
+# 移动UPnP页面从Services到Network
+sed -i 's#admin/services/upnp#admin/network/upnp#g' \
+feeds/luci/applications/luci-app-upnp/root/usr/share/luci/menu.d/luci-app-upnp.json
+
+# 读取版本信息
+if [ -f /etc/openwrt_release ]; then
+    source /etc/openwrt_release
+elif [ -f /etc/release ]; then
+    source /etc/release
+fi
+
+DISTRIB_RELEASE=$(grep 'DISTRIB_RELEASE=' ./include/version.mk 2>/dev/null | cut -d '=' -f2 | tr -d " '")
+if [ -z "$DISTRIB_RELEASE" ]; then
+    DISTRIB_RELEASE="$(date +%Y%m%d)"
+fi
+
+# 修改banner
+cat << EOF > package/base-files/files/etc/banner
+     _________
+    /        /\     __   __          _
+   /  YU    /  \    \ \ / /   _ _ __(_)
+  /    RI  /    \    \ V / | | | '__| |
+ /________/  YU  \    | || |_| | |  | |
+ \        \   RI /    |_| \__,_|_|  |_|
+  \    YU  \    /  -------------------------------------------
+   \  RI    \  /    ImmortalWrt, ${DISTRIB_RELEASE}
+    \________\/    -------------------------------------------
+
+EOF
