@@ -47,8 +47,8 @@ jobs:
       WRT_NAME: AX3000T
       #默认WIFI名称
       WRT_SSID: rd03_minet_12ac
-      #默认WIFI密码
-      WRT_WORD: 
+      #默认WIFI密码,仅作提示，修改无用
+      WRT_WORD: 无
       #默认地址
       WRT_IP: 192.168.10.1
       #默认密码，仅作提示，修改无用
