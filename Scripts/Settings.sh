@@ -47,3 +47,20 @@ echo "CONFIG_PACKAGE_luci-app-$WRT_THEME-config=y" >> ./.config
 if [ -n "$WRT_PACKAGE" ]; then
 	echo -e "$WRT_PACKAGE" >> ./.config
 fi
+
+# by DeepSeek
+# 添加dnsmasq设置，将miwifi.com解析到192.168.10.1
+DNSMASQ_CONF="./package/network/services/dnsmasq/files/dnsmasq.conf"
+if [ -f "$DNSMASQ_CONF" ]; then
+    echo "address=/miwifi.com/192.168.10.1" >> "$DNSMASQ_CONF"
+else
+    # 尝试其他可能的位置
+    DNSMASQ_CONF2="./package/base-files/files/etc/dnsmasq.conf"
+    if [ -f "$DNSMASQ_CONF2" ]; then
+        echo "address=/miwifi.com/192.168.10.1" >> "$DNSMASQ_CONF2"
+    else
+        # 在默认设置中添加命令，让系统启动时写入
+        LAST_LINE=$(awk '/exit 0/{print NR}' $(find ./package/emortal/default-settings/files/ -type f -name "99-default-settings"))
+        sed -i "${LAST_LINE}"'i\echo "address=/miwifi.com/192.168.10.1" >> /etc/dnsmasq.conf' $(find ./package/emortal/default-settings/files/ -type f -name "99-default-settings")
+    fi
+fi
