@@ -32,7 +32,8 @@ jobs:
       fail-fast: false
       #max-parallel: 3
       matrix:
-        CONFIG: [Mediatek-Proxy, Mediatek-noProxy]
+        CONFIG: [Mediatek-noProxy]
+#        CONFIG: [Mediatek-Proxy, Mediatek-noProxy]
         SOURCE: [VIKINGYFY/immortalwrt]
         BRANCH: [owrt]
 
