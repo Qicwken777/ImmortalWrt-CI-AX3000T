@@ -93,13 +93,13 @@ mkdir -p ./package/base-files/files/etc/
 # 修改banner
 cat << EOF > ./package/base-files/files/etc/banner
      _________
-    /        /\     __   __          _
-   /  YU    /  \    \ \ / /   _ _ __(_)
-  /    RI  /    \    \ V / | | | '__| |
- /________/  YU  \    | || |_| | |  | |
- \        \   RI /    |_| \__,_|_|  |_|
+    /        /\     __   __
+   /  YU    /  \    \ \ / /   _ _____   _
+  /    ZU  /    \    \ V / | | |_  / | | |
+ /________/  YU  \    | || |_| |/ /| |_| |
+ \        \   ZU /    |_| \__,_/___|\__,_|
   \    YU  \    /  -------------------------------------------
-   \  RI    \  /    ImmortalWrt, ${DISTRIB_RELEASE}
+   \  ZU    \  /    ImmortalWrt, ${DISTRIB_RELEASE}
     \________\/    -------------------------------------------
 
 EOF
