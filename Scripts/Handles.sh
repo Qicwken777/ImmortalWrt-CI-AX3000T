@@ -54,3 +54,11 @@ if [ -f "$RUST_FILE" ]; then
 
 	cd $PKG_PATH && echo "rust has been fixed!"
 fi
+
+# 修复 luci-app-mosdns 与 mosdns 的 init.d 冲突
+MOSDNS_LUCI_FILE=$(find $PKG_PATH -type f -path "*/luci-app-mosdns*/Makefile")
+if [ -f "$MOSDNS_LUCI_FILE" ]; then
+    echo " "
+    sed -i '/etc\/init.d\/mosdns/d' "$MOSDNS_LUCI_FILE"
+    echo "luci-app-mosdns init.d conflict has been fixed!"
+fi
