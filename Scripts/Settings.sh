@@ -78,10 +78,10 @@ if [ -f "./feeds/luci/applications/luci-app-upnp/root/usr/share/luci/menu.d/luci
 fi
 
 # 移动SmartDNS页面从Services到Network
-if [ -f "./feeds/luci/applications/luci-app-smartdns/root/usr/share/luci/menu.d/luci-app-smartdns.json" ]; then
-    sed -i 's#admin/services/smartdns#admin/network/smartdns#g' \
-    ./feeds/luci/applications/luci-app-smartdns/root/usr/share/luci/menu.d/luci-app-smartdns.json
-fi
+#if [ -f "./feeds/luci/applications/luci-app-smartdns/root/usr/share/luci/menu.d/luci-app-smartdns.json" ]; then
+#    sed -i 's#admin/services/smartdns#admin/network/smartdns#g' \
+#    ./feeds/luci/applications/luci-app-smartdns/root/usr/share/luci/menu.d/luci-app-smartdns.json
+#fi
 
 # 从源码中读取版本信息
 DISTRIB_RELEASE=$(grep 'DISTRIB_RELEASE=' ./include/version.mk 2>/dev/null | cut -d '=' -f2 | tr -d " '")
