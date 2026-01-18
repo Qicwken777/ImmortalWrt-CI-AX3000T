@@ -97,7 +97,7 @@ fi
 mkdir -p ./package/base-files/files/etc/
 
 # 修改banner
-cat << EOF > ./package/base-files/files/etc/banner
+cat << 'EOF' > ./package/base-files/files/etc/banner
      _________
     /        /\      __  __                       _ 
    /  MO    /  \    |  \/  | ___  _ __ ___   ___ (_)
@@ -105,7 +105,7 @@ cat << EOF > ./package/base-files/files/etc/banner
  /________/  MO  \  | |  | | (_) | | | | | | (_) | |
  \        \   MO /  |_|  |_|\___/|_| |_| |_|\___/|_|
   \    MO  \    /  -------------------------------------------
-   \  MO    \  /    ImmortalWrt, ${DISTRIB_RELEASE}
+   \  MO    \  /    ImmortalWrt, @DISTRIB_RELEASE@
     \________\/    -------------------------------------------
 
 EOF
