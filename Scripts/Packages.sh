@@ -58,6 +58,11 @@ UPDATE_PACKAGE "luci-app-tailscale" "asvow/luci-app-tailscale" "main"
 UPDATE_PACKAGE "viking" "VIKINGYFY/packages" "main" "" "luci-app-wolplus"
 # UPDATE_PACKAGE "luci-app-tailscale-community" "Tokisaki-Galaxy/luci-app-tailscale-community" "master"
 
+# 添加 luci-app-mosdns
+UPDATE_PACKAGE "luci-app-mosdns" "sbwml/luci-app-mosdns" "main"
+
+# 添加 v2ray-geodata 依赖
+UPDATE_PACKAGE "v2ray-geodata" "sbwml/v2ray-geodata" "main"
 
 #更新软件包版本
 UPDATE_VERSION() {
