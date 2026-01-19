@@ -6,7 +6,7 @@ on:
     workflows: ["Cache-Clean"]
     types:
       - completed
-  #自动清理：每周五早上6点
+  #自动清理：每周一早上2点
   schedule:
     - cron: 0 18 * * 0
   #手动清理
