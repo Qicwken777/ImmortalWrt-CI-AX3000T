@@ -85,19 +85,41 @@ else
     echo "luci-app-mosdns menu file not found!"
 fi
 
-# 从源码中读取版本信息
-DISTRIB_RELEASE=$(sed -n 's/^VERSION_NUMBER[:=]\s*//p' include/version.mk | tr -d " '")
+# 从 include/version.mk 提取变量值的函数（移除引号、空白和前导=）
+_extract_mk_var() {
+    local var="$1"
+    # 匹配形如: VAR = value  或 VAR:=value ，适配前置空白
+    grep -E "^[[:space:]]*${var}[[:space:]]*[:=]" include/version.mk 2>/dev/null \
+      | sed -E 's/^[^:=]*[:=][[:space:]]*//; s/^[[:space:]"'\'']+//; s/[[:space:]"'\'']+$//' \
+      | head -n1
+}
 
+# 先尝试 VERSION_NUMBER
+DISTRIB_RELEASE="$(_extract_mk_var VERSION_NUMBER)"
+
+# 再尝试 DISTRIB_RELEASE（如果 VERSION_NUMBER 为空）
 if [ -z "$DISTRIB_RELEASE" ]; then
-    DISTRIB_RELEASE=$(sed -n 's/^DISTRIB_RELEASE[:=]\s*//p' include/version.mk | tr -d " '")
+    DISTRIB_RELEASE="$(_extract_mk_var DISTRIB_RELEASE)"
 fi
 
+# 如果值为空或值包含 Make 表达式（$() / $(call...)），尝试从 .config 取 CONFIG_VERSION_NUMBER
+if [ -z "$DISTRIB_RELEASE" ] || printf '%s\n' "$DISTRIB_RELEASE" | grep -q '\$\('; then
+    if [ -f .config ]; then
+        # .config 里可能有 CONFIG_VERSION_NUMBER="..." 或 CONFIG_VERSION_NUMBER=...
+        CONFIG_VER=$(sed -n 's/^CONFIG_VERSION_NUMBER[[:space:]]*=[[:space:]]*//p' .config | sed 's/^"\(.*\)"$/\1/' | head -n1)
+        if [ -n "$CONFIG_VER" ]; then
+            DISTRIB_RELEASE="$CONFIG_VER"
+        fi
+    fi
+fi
+
+# 仍然为空或无法解析时回退到日期（避免把 make 表达式写进 banner）
 [ -z "$DISTRIB_RELEASE" ] && DISTRIB_RELEASE="$(date +%Y%m%d)"
 
 # 创建banner目录（如果不存在）
 mkdir -p ./package/base-files/files/etc/
 
-# 修改banner
+# 修改banner（保持你原来的 banner 模板）
 cat << EOF > ./package/base-files/files/etc/banner
      _________
     /        /\      __  __                       _ 
