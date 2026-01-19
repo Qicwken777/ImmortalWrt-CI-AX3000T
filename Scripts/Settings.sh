@@ -99,13 +99,14 @@ _extract_mk_var() {
 # 获取版本号（绝对可靠）
 DISTRIB_RELEASE="$(
 make -f - <<'EOF'
+include rules.mk
 include include/version.mk
+include include/toplevel.mk
+
 print:
-	@echo $(if $(VERSION_NUMBER),$(VERSION_NUMBER),SNAPSHOT)
+	@echo $(VERSION_CODE)
 EOF
 )"
-
-[ -z "$DISTRIB_RELEASE" ] && DISTRIB_RELEASE="$(date +%Y%m%d)"
 
 # 创建banner目录（如果不存在）
 mkdir -p ./package/base-files/files/etc/
