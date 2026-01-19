@@ -79,7 +79,7 @@ MOSDNS_MENU=$(find .. -type f \
 
 if [ -n "$MOSDNS_MENU" ]; then
     sed -i 's#admin/services/mosdns#admin/network/mosdns#g' "$MOSDNS_MENU"
-    echo "Moved luci-app-mosdns menu to Network:"
+    echo "Moved luci-app-mosdns"
     echo "  $MOSDNS_MENU"
 else
     echo "luci-app-mosdns menu file not found!"
