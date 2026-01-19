@@ -84,14 +84,13 @@ if [ -f "./feeds/luci/applications/luci-app-mosdns/root/usr/share/luci/menu.d/lu
 fi
 
 # 从源码中读取版本信息
-DISTRIB_RELEASE=$(grep 'DISTRIB_RELEASE=' ./include/version.mk 2>/dev/null | cut -d '=' -f2 | tr -d " '")
+DISTRIB_RELEASE=$(sed -n 's/^VERSION_NUMBER[:=]\s*//p' include/version.mk | tr -d " '")
+
 if [ -z "$DISTRIB_RELEASE" ]; then
-    # 尝试其他位置
-    DISTRIB_RELEASE=$(grep 'VERSION_NUMBER=' ./include/version.mk 2>/dev/null | cut -d '=' -f2 | tr -d " '")
-    if [ -z "$DISTRIB_RELEASE" ]; then
-        DISTRIB_RELEASE="$(date +%Y%m%d)"
-    fi
+    DISTRIB_RELEASE=$(sed -n 's/^DISTRIB_RELEASE[:=]\s*//p' include/version.mk | tr -d " '")
 fi
+
+[ -z "$DISTRIB_RELEASE" ] && DISTRIB_RELEASE="$(date +%Y%m%d)"
 
 # 创建banner目录（如果不存在）
 mkdir -p ./package/base-files/files/etc/
