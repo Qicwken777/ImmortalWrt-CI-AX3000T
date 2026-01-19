@@ -34,8 +34,10 @@ sed -i "s/192\.168\.[0-9]*\.[0-9]*/$WRT_IP/g" "$CFG_FILE"
 sed -i "s/hostname='.*'/hostname='$WRT_NAME'/g" "$CFG_FILE"
 
 #修改apk软件源为南京大学镜像站
-LAST_LINE=$(awk '/exit 0/{print NR}' $(find ./package/emortal/default-settings/files/ -type f -name "99-default-settings"))
-sed -i "${LAST_LINE}"'i\sed -i '\"s,https://downloads.immortalwrt.org,https://mirror.nju.edu.cn/immortalwrt,g\"' "/etc/apk/repositories.d/distfeeds.list"' $(find ./package/emortal/default-settings/files/ -type f -name "99-default-settings")
+FILE=$(find ./package/emortal/default-settings/files/ -type f -name "99-default-settings")
+sed -i '/^exit 0/i \
+sed -i "s#https://downloads.immortalwrt.org#https://mirror.nju.edu.cn/immortalwrt#g" /etc/apk/repositories.d/distfeeds.list
+' "$FILE"
 
 #配置文件修改
 echo "CONFIG_PACKAGE_luci=y" >> ./.config
