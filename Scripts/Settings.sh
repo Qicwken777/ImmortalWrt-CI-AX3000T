@@ -33,12 +33,12 @@ sed -i "s/192\.168\.[0-9]*\.[0-9]*/$WRT_IP/g" "$CFG_FILE"
 #修改默认主机名
 sed -i "s/hostname='.*'/hostname='$WRT_NAME'/g" "$CFG_FILE"
 
-#修改opkg软件源为南京大学镜像站
+#修改apk软件源为南京大学镜像站
 DEFAULT_SETTINGS=$(find ./package/emortal/default-settings/files/ -type f -name "99-default-settings" 2>/dev/null | head -1)
 if [ -f "$DEFAULT_SETTINGS" ]; then
     LAST_LINE=$(awk '/exit 0/{print NR}' "$DEFAULT_SETTINGS" | tail -1)
     if [ -n "$LAST_LINE" ]; then
-        sed -i "${LAST_LINE}i\\"$'\n'"sed -i \"s,https://downloads.immortalwrt.org,https://mirror.nju.edu.cn/immortalwrt,g\" /etc/opkg/distfeeds.conf" "$DEFAULT_SETTINGS"
+        sed -i "${LAST_LINE}i\\"$'\n'"sed -i \"s,https://downloads.immortalwrt.org,https://mirror.nju.edu.cn/immortalwrt,g\" /etc/apk/repositories.d/distfeed.list" "$DEFAULT_SETTINGS"
     fi
 fi
 
