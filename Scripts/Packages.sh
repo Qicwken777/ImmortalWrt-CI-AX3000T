@@ -108,3 +108,10 @@ UPDATE_VERSION() {
 #UPDATE_VERSION "软件包名" "测试版，true，可选，默认为否"
 UPDATE_VERSION "sing-box"
 #UPDATE_VERSION "tailscale"
+
+if [ -d "./feeds/packages/net/mosdns" ]; then
+	rm -rf ./feeds/packages/net/mosdns
+	echo "Deleted feeds/packages/net/mosdns"
+else
+	echo "feeds/packages/net/mosdns not found, skip"
+fi
