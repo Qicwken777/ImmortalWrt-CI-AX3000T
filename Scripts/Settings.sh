@@ -78,11 +78,14 @@ if [ -f "./feeds/luci/applications/luci-app-upnp/root/usr/share/luci/menu.d/luci
 fi
 
 # 移动MosDNS页面从Services到Network
-MOSDNS_MENU="./luci-app-mosdns/root/usr/share/luci/menu.d/luci-app-mosdns.json"
+MOSDNS_MENU=$(find .. -type f \
+  -path "*luci-app-mosdns*/root/usr/share/luci/menu.d/luci-app-mosdns.json" \
+  2>/dev/null | head -n 1)
 
-if [ -f "$MOSDNS_MENU" ]; then
+if [ -n "$MOSDNS_MENU" ]; then
     sed -i 's#admin/services/mosdns#admin/network/mosdns#g' "$MOSDNS_MENU"
-    echo "Moved luci-app-mosdns menu"
+    echo "Moved luci-app-mosdns menu to Network:"
+    echo "  $MOSDNS_MENU"
 else
     echo "luci-app-mosdns menu file not found!"
 fi
