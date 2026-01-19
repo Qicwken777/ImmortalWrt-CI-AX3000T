@@ -96,18 +96,6 @@ _extract_mk_var() {
       | head -n1
 }
 
-# 获取版本号（绝对可靠）
-DISTRIB_RELEASE="$(
-make -f - <<'EOF'
-include rules.mk
-include include/version.mk
-include include/toplevel.mk
-
-print:
-	@echo $(VERSION_CODE)
-EOF
-)"
-
 # 创建banner目录（如果不存在）
 mkdir -p ./package/base-files/files/etc/
 
@@ -120,7 +108,7 @@ cat << EOF > ./package/base-files/files/etc/banner
  /________/  MO  \  | |  | | (_) | | | | | | (_) | |
  \        \   MO /  |_|  |_|\___/|_| |_| |_|\___/|_|
   \    MO  \    /  -------------------------------------------
-   \  MO    \  /    ImmortalWrt, ${DISTRIB_RELEASE}
+   \  MO    \  /    $(. /etc/openwrt_release 2>/dev/null && echo "$DISTRIB_ID $DISTRIB_RELEASE ($DISTRIB_REVISION)")
     \________\/    -------------------------------------------
 
 EOF
