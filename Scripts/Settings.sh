@@ -78,9 +78,13 @@ if [ -f "./feeds/luci/applications/luci-app-upnp/root/usr/share/luci/menu.d/luci
 fi
 
 # 移动MosDNS页面从Services到Network
-if [ -f "./feeds/luci/applications/luci-app-mosdns/root/usr/share/luci/menu.d/luci-app-mosdns.json" ]; then
-    sed -i 's#admin/services/mosdns#admin/network/mosdns#g' \
-    ./feeds/luci/applications/luci-app-mosdns/root/usr/share/luci/menu.d/luci-app-mosdns.json
+MOSDNS_MENU="./luci-app-mosdns/root/usr/share/luci/menu.d/luci-app-mosdns.json"
+
+if [ -f "$MOSDNS_MENU" ]; then
+    sed -i 's#admin/services/mosdns#admin/network/mosdns#g' "$MOSDNS_MENU"
+    echo "Moved luci-app-mosdns menu"
+else
+    echo "luci-app-mosdns menu file not found!"
 fi
 
 # 从源码中读取版本信息
