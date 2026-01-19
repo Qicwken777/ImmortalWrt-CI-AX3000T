@@ -97,8 +97,6 @@ fi
 mkdir -p ./package/base-files/files/etc/
 
 # 修改banner
-
-# 修改banner
 cat << EOF > ./package/base-files/files/etc/banner
      _________
     /        /\      __  __                       _ 
