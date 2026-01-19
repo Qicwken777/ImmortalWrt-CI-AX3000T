@@ -94,26 +94,15 @@ _extract_mk_var() {
       | head -n1
 }
 
-# 先尝试 VERSION_NUMBER
-DISTRIB_RELEASE="$(_extract_mk_var VERSION_NUMBER)"
+# 获取版本号（绝对可靠）
+DISTRIB_RELEASE="$(
+make -f - <<'EOF'
+include include/version.mk
+print:
+	@echo $(if $(VERSION_NUMBER),$(VERSION_NUMBER),SNAPSHOT)
+EOF
+)"
 
-# 再尝试 DISTRIB_RELEASE（如果 VERSION_NUMBER 为空）
-if [ -z "$DISTRIB_RELEASE" ]; then
-    DISTRIB_RELEASE="$(_extract_mk_var DISTRIB_RELEASE)"
-fi
-
-# 如果值为空或值包含 Make 表达式（$() / $(call...)），尝试从 .config 取 CONFIG_VERSION_NUMBER
-if [ -z "$DISTRIB_RELEASE" ] || printf '%s\n' "$DISTRIB_RELEASE" | grep -q '\$\('; then
-    if [ -f .config ]; then
-        # .config 里可能有 CONFIG_VERSION_NUMBER="..." 或 CONFIG_VERSION_NUMBER=...
-        CONFIG_VER=$(sed -n 's/^CONFIG_VERSION_NUMBER[[:space:]]*=[[:space:]]*//p' .config | sed 's/^"\(.*\)"$/\1/' | head -n1)
-        if [ -n "$CONFIG_VER" ]; then
-            DISTRIB_RELEASE="$CONFIG_VER"
-        fi
-    fi
-fi
-
-# 仍然为空或无法解析时回退到日期（避免把 make 表达式写进 banner）
 [ -z "$DISTRIB_RELEASE" ] && DISTRIB_RELEASE="$(date +%Y%m%d)"
 
 # 创建banner目录（如果不存在）
