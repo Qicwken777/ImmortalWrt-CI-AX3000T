@@ -59,6 +59,8 @@ fi
 MOSDNS_LUCI_FILE=$(find $PKG_PATH -type f -path "*/luci-app-mosdns*/Makefile")
 if [ -f "$MOSDNS_LUCI_FILE" ]; then
     echo " "
-    sed -i '/etc\/init.d\/mosdns/d' "$MOSDNS_LUCI_FILE"
+
+    rm -rf ./feeds/packages/net/mosdns
+
     echo "luci-app-mosdns init.d conflict has been fixed!"
 fi
