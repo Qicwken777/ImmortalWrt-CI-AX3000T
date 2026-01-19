@@ -61,6 +61,8 @@ UPDATE_PACKAGE "viking" "VIKINGYFY/packages" "main" "" "luci-app-wolplus"
 # 添加 luci-app-mosdns
 UPDATE_PACKAGE "luci-app-mosdns" "sbwml/luci-app-mosdns" "v5"
 
+rm -rf ../feeds/packages/net/mosdns
+
 # 添加 v2ray-geodata 依赖
 UPDATE_PACKAGE "v2ray-geodata" "sbwml/v2ray-geodata" "master"
 
@@ -108,10 +110,3 @@ UPDATE_VERSION() {
 #UPDATE_VERSION "软件包名" "测试版，true，可选，默认为否"
 UPDATE_VERSION "sing-box"
 #UPDATE_VERSION "tailscale"
-
-if [ -d "./feeds/packages/net/mosdns" ]; then
-	rm -rf ./feeds/packages/net/mosdns
-	echo "Deleted feeds/packages/net/mosdns"
-else
-	echo "feeds/packages/net/mosdns not found, skip"
-fi
