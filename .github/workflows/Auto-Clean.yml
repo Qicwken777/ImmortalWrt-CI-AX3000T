@@ -7,8 +7,8 @@ on:
     types:
       - completed
   #自动清理：每周一早上2点
-  schedule:
-    - cron: 0 18 * * 0
+  #schedule:
+    #- cron: 0 18 * * 0
   #手动清理
   workflow_dispatch:
 
